@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screens/forget_password_screen.dart';
-import 'package:task_manager/ui/screens/sign_up_screen.dart';
+import 'package:task_manager/ui/screens/login_screen.dart';
+import 'package:task_manager/ui/screens/pin_verification_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgetPasswordScreen> createState() => ForgetPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    // return Placeholder();
     return MaterialApp(
       home: Scaffold(
         body: BodyBackground(
@@ -28,11 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 80,
                     ),
                     Text(
-                      "Get Started With",
+                      "Your Email Address",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
+                    const Text(
+                      "A 6 digit verification code will be sent to your email address.",
+                      style: TextStyle(
+                          color: Colors.grey, fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(
-                      height: 80,
+                      height: 24,
                     ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
@@ -43,43 +47,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Icon(Icons.arrow_circle_right_outlined)),
-                    ),
-                    const SizedBox(
-                      height: 48,
-                    ),
-                    Center(
-                      child: TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ForgetPasswordScreen()));
+                                        const PinVerificationScreen()));
                           },
-                          child: const Text(
-                            "Forget Password?",
-                            style: TextStyle(color: Colors.grey, fontSize: 16),
-                          )),
+                          child: const Icon(Icons.arrow_circle_right_outlined)),
+                    ),
+                    const SizedBox(
+                      height: 48,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Don't have a account?",
+                          "have a account?",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -91,10 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SignUpScreen()));
+                                          const LoginScreen()));
                             },
                             child: const Text(
-                              "Sign Up",
+                              "Sign In",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 16),
                             )),
