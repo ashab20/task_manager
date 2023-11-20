@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_manager/ui/screens/login_screen.dart';
-import 'package:task_manager/ui/screens/reset_password_screen%20copy.dart';
+import 'package:task_manager/ui/screens/pin_verification_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
-class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<PinVerificationScreen> createState() => PinVerificationScreenState();
+  State<ResetPasswordScreen> createState() => ResetPasswordScreenState();
 }
 
-class PinVerificationScreenState extends State<PinVerificationScreen> {
+class ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,43 +27,31 @@ class PinVerificationScreenState extends State<PinVerificationScreen> {
                       height: 80,
                     ),
                     Text(
-                      "Pin Verification",
+                      "Your Email Address",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const Text(
-                      "A 6 digit verification code will be sent to your email address.",
+                      "Minimum password length should be more then 5 character long.",
                       style: TextStyle(
                           color: Colors.grey, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
                       height: 24,
                     ),
-                    PinCodeTextField(
-                      appContext: context,
-                      length: 6,
-                      obscureText: false,
-                      animationType: AnimationType.fade,
-                      pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 50,
-                        fieldWidth: 40,
-                        activeFillColor: Colors.blue,
-                        selectedFillColor: Colors.white,
-                        inactiveFillColor: Colors.white,
+                    TextFormField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: 'New Password',
                       ),
-                      animationDuration: Duration(milliseconds: 300),
-                      enableActiveFill: true,
-                      onCompleted: (v) {
-                        print("Completed");
-                      },
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {});
-                      },
-                      beforeTextPaste: (text) {
-                        return true;
-                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: 'Confirm Password',
+                      ),
                     ),
                     const SizedBox(
                       height: 16,
@@ -72,15 +59,14 @@ class PinVerificationScreenState extends State<PinVerificationScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (constext) =>
-                                      const ResetPasswordScreen()));
-                        },
-                        child: const Text("Verify"),
-                      ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PinVerificationScreen()));
+                          },
+                          child: const Icon(Icons.arrow_circle_right_outlined)),
                     ),
                     const SizedBox(
                       height: 48,
