@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:http/http.dart';
+import 'package:task_manager/data/network_caller/network_response.dart';
 
 class NetworkCaller {
   Future<NetworkResponse> postRrequest(String url,
-      {Map<String, dynamic>? body}) async {
+      {dynamic body}) async {
     try {
       final Response response = await post(Uri.parse(url),
           body: jsonEncode(body),
@@ -26,17 +25,4 @@ class NetworkCaller {
       return NetworkResponse(isSuccess: false, errorMessage: err.toString());
     }
   }
-}
-
-class NetworkResponse {
-  final int? statusCode;
-  final bool isSuccess;
-  final Map<String, dynamic>? jsonResponse;
-  final String? errorMessage;
-
-  NetworkResponse(
-      {this.statusCode = -1,
-      required this.isSuccess,
-      this.errorMessage = 'Something went wrong!',
-      this.jsonResponse});
 }
