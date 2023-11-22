@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
@@ -144,8 +142,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: Visibility(
-                        visible: _signUpInProgress,
-                        replacement: Center(child: CircularProgressIndicator()),
+                        visible: !_signUpInProgress,
+                        replacement:
+                            const Center(child: CircularProgressIndicator()),
                         child: ElevatedButton(
                             onPressed: signUp,
                             child:
@@ -201,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "email": _emailTextControl.text,
         "firstName": _firstNameTextControl.text,
         "lastName": _lasttNameTextControl.text,
-        "mobile": _lasttNameTextControl.text,
+        "mobile": _phonetNameTextControl.text,
         "password": _passwordTextControl.text,
         "photo": ""
       });
@@ -210,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {});
       }
 
-      if (response.isSuccess) {
+      if (!response.isSuccess) {
         clearTextField();
         if (mounted) {
           showSnackMessage(
@@ -220,6 +219,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (mounted) {
           showSnackMessage(
               context, "Account has been created! Please Login.", true);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (Router) => false);
         }
       }
     }

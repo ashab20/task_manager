@@ -53,7 +53,7 @@ class PinVerificationScreenState extends State<PinVerificationScreen> {
                         selectedFillColor: Colors.white,
                         inactiveFillColor: Colors.white,
                       ),
-                      animationDuration: Duration(milliseconds: 300),
+                      animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: true,
                       onCompleted: (v) {
                         print("Completed");
