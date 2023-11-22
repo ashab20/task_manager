@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_manager/controllers/auth_controller.dart';
+import 'package:task_manager/data/models/user_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
 import 'package:task_manager/ui/screens/forget_password_screen.dart';
+import 'package:task_manager/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 import 'package:task_manager/ui/widget/snack_message.dart';
@@ -177,24 +176,22 @@ class _LoginScreenState extends State<LoginScreen> {
               context, "Wrong Crendential!Please check email/password.");
         }
       } else {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        await sharedPreferences.setString(
-            'token', response.jsonResponse['token']);
         if (mounted) {
           showSnackMessage(
               context, "Something went wrong while login! Please try again.");
         }
       }
     } else {
-      log(response.toString());
+      await AuthController.saveUserInfo(response.jsonResponse['token'],
+          UserModel.fromJson(response.jsonResponse['data']));
+
       if (mounted) {
         showSnackMessage(
             context, "Login success! Redirect to dashboard.", true);
-        // Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => const LoginScreen()),
-        //     (Router) => false);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const MainBottomNavScreen()));
       }
     }
   }

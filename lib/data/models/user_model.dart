@@ -1,16 +1,16 @@
 // ignore_for_file: unnecessary_new
 
-class UserMOdel {
+class UserModel {
   String? email;
   String? firstName;
   String? lastName;
   String? mobile;
   String? photo;
 
-  UserMOdel(
+  UserModel(
       {this.email, this.firstName, this.lastName, this.mobile, this.photo});
 
-  UserMOdel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     firstName = json['firstName'];
     lastName = json['lastName'];

@@ -4,8 +4,8 @@ import 'package:task_manager/data/models/user_model.dart';
 
 class AuthController {
   static String? token;
-  static UserMOdel? user;
-  Future<void> saveUserInfo(String t, UserMOdel model) async {
+  static UserModel? user;
+  static Future<void> saveUserInfo(String t, UserModel model) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString('token', t);
     await sharedPreferences.setString('user', jsonEncode(model.toJson()));
@@ -13,20 +13,27 @@ class AuthController {
     user = model;
   }
 
-  Future<void> initializaUserCache() async {
+  static Future<void> initializaUserCache() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     token = sharedPreferences.getString('token');
-    user = UserMOdel.fromJson(
+    user = UserModel.fromJson(
         jsonDecode(sharedPreferences.getString('user') ?? '{}'));
   }
 
-  Future<bool> isLoginUser() async {
+  static Future<bool> isLoggedinUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = sharedPreferences.getString('token');
+    String? token = await sharedPreferences.getString('token');
     if (token != null) {
       await initializaUserCache();
       return true;
     }
     return false;
+  }
+
+  static Future<void> clearAuthUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    token = null;
+    user = null;
   }
 }
