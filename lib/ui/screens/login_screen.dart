@@ -159,39 +159,41 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {});
     }
     final NetworkResponse response =
-        await NetworkCaller().postRrequest(Urls.login, body: {
+        await NetworkCaller().postRequest(Urls.login, body: {
       "email": _emailTextCtrl.text.trim(),
       "password": _passwordTextCtrl.text,
-    });
+    },isLogin: true);
     _signUpInProgress = false;
     if (mounted) {
       setState(() {});
     }
 
-    if (!response.isSuccess) {
+    if (response.isSuccess) {
+      // print(response.jsonResponse['token']);
+      await AuthController.saveUserInfo(
+          response.jsonResponse['token'],
+          UserModel.fromJson(response.jsonResponse['data']));
+
+      if (mounted) {
+        // showSnackMessage(
+        //     context, "Login success! Redirect to dashboard.", true);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const MainBottomNavScreen()));
+      }
+    } else {
       clearTextField();
       if (response.statusCode == 401) {
         if (mounted) {
           showSnackMessage(
-              context, "Wrong Crendential!Please check email/password.");
+              context, "Wrong Credential!Please check email/password.");
         }
       } else {
         if (mounted) {
           showSnackMessage(
               context, "Something went wrong while login! Please try again.");
         }
-      }
-    } else {
-      await AuthController.saveUserInfo(response.jsonResponse['token'],
-          UserModel.fromJson(response.jsonResponse['data']));
-
-      if (mounted) {
-        showSnackMessage(
-            context, "Login success! Redirect to dashboard.", true);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const MainBottomNavScreen()));
       }
     }
   }

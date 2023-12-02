@@ -4,6 +4,6 @@ void showSnackMessage(BuildContext context, String message,
     [bool isError = false]) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(message),
-    backgroundColor: isError ? null : Colors.redAccent,
+    backgroundColor: isError ? Colors.greenAccent : Colors.redAccent,
   ));
 }

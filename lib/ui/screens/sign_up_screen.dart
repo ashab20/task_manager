@@ -196,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {});
       }
       final NetworkResponse response =
-          await NetworkCaller().postRrequest(Urls.registration, body: {
+          await NetworkCaller().postRequest(Urls.registration, body: {
         "email": _emailTextControl.text,
         "firstName": _firstNameTextControl.text,
         "lastName": _lasttNameTextControl.text,
