@@ -6,7 +6,7 @@ import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
 import 'package:task_manager/ui/screens/add_new_tasks_screen.dart';
-import 'package:task_manager/ui/widget/profile_summary_card.dart';
+import 'package:task_manager/ui/widget/profile_summary.dart';
 import 'package:task_manager/ui/widget/summary_card.dart';
 import 'package:task_manager/ui/widget/task_item_card.dart';
 
@@ -77,7 +77,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: SafeArea(
         child: Column(
             children: [
-              const profileSummaryCard(),
+              const ProfileSummary(),
               Visibility(
                 visible: !getTaskSummaryInProgress && (taskSummaryCountModel.taskCountList?.isNotEmpty ?? false),
                 replacement: const Center(

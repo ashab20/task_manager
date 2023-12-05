@@ -4,7 +4,7 @@ import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
-import 'package:task_manager/ui/widget/profile_summary_card.dart';
+import 'package:task_manager/ui/widget/profile_summary.dart';
 import 'package:task_manager/ui/widget/snack_message.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const profileSummaryCard(),
+            const ProfileSummary(),
             Expanded(
               child: BodyBackground(child:SingleChildScrollView(
                 child: Form(

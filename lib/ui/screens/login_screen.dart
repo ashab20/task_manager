@@ -4,7 +4,7 @@ import 'package:task_manager/data/models/user_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
-import 'package:task_manager/ui/screens/forget_password_screen.dart';
+import 'package:task_manager/ui/screens/forget_password/email_verify.dart';
 import 'package:task_manager/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_manager/ui/screens/sign_up_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
@@ -101,18 +101,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Center(
                         child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ForgetPasswordScreen()));
-                            },
-                            child: const Text(
-                              "Forget Password?",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
-                            )),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const EmailVerification()));
+                          },
+                          child: const Text(
+                            "Forget Password ?",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

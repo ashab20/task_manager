@@ -4,7 +4,7 @@ import 'package:task_manager/data/models/task_summary_count_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
-import 'package:task_manager/ui/widget/profile_summary_card.dart';
+import 'package:task_manager/ui/widget/profile_summary.dart';
 import 'package:task_manager/ui/widget/task_item_card.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const profileSummaryCard(),
+            const ProfileSummary(),
             Expanded(
               child:Visibility(
                 visible: !getNewTaskInProgress,
