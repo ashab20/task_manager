@@ -18,129 +18,141 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _signUpInProgress = false;
-  final GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
-  final TextEditingController _emailTextCtrl = TextEditingController();
-  final TextEditingController _passwordTextCtrl = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _loginInProgress = false;
 
   @override
   Widget build(BuildContext context) {
-    // return Placeholder();
-    return MaterialApp(
-      home: Scaffold(
-        body: BodyBackground(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _loginKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 80,
+    return Scaffold(
+      body: BodyBackground(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(48),
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 80,
+                    ),
+                    Text(
+                      "Get Started With",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleLarge,
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: "E-mail",
+                        hintText: "Enter Email",
                       ),
-                      Text(
-                        "Get Started With",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(
-                        height: 80,
-                      ),
-                      TextFormField(
-                        controller: _emailTextCtrl,
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return "Email can't be empty";
-                          }
-
-                          if (!RegExp(r'\S+@\S+\.\S+')
-                              .hasMatch(value.toString())) {
-                            return "Please enter a valid email address";
-                          }
+                      validator: (value) {
+                        if (value
+                            ?.trim()
+                            .isEmpty ?? true) {
+                          return "Enter Value";
+                        } else if (RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!)) {
                           return null;
+                        }
+                        return "invalid E-mail";
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        hintText: "Enter Password",
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Enter Value";
+                        }
+                        if (value!.length < 6) {
+                          return "Enter password more then 6 digit";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: _loginInProgress == false,
+                        replacement:
+                        const Center(child: CircularProgressIndicator()),
+                        child: ElevatedButton(
+                          onPressed: login,
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const EmailVerification()));
                         },
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Email',
+                        child: const Text(
+                          "Forget Password ?",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: _passwordTextCtrl,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have account?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return "Please insert your pasword";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Visibility(
-                          visible: !_signUpInProgress,
-                          replacement: const CircularProgressIndicator(),
-                          child: ElevatedButton(
-                              onPressed: _singIn,
-                              child: const Icon(
-                                  Icons.arrow_circle_right_outlined)),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 48,
-                      ),
-                      Center(
-                        child: TextButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                    const EmailVerification()));
+                                    const SignUpScreen()));
                           },
                           child: const Text(
-                            "Forget Password ?",
+                            "Sign up",
                             style: TextStyle(fontSize: 16),
                           ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have a account?",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black87),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignUpScreen()));
-                              },
-                              child: const Text(
-                                "Sign Up",
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
@@ -150,63 +162,51 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _singIn() async {
-    if (!_loginKey.currentState!.validate()) {
+  Future<void> login() async {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _signUpInProgress = true;
+
+    _loginInProgress = true;
     if (mounted) {
       setState(() {});
     }
-    final NetworkResponse response =
-        await NetworkCaller().postRequest(Urls.login, body: {
-      "email": _emailTextCtrl.text.trim(),
-      "password": _passwordTextCtrl.text,
-    },isLogin: true);
-    _signUpInProgress = false;
+    NetworkResponse response = await NetworkCaller().postRequest(Urls.login,
+        body: {
+          "email": _emailController.text.trim(),
+          "password": _passwordController.text
+        },isLogin: true);
+    _loginInProgress = false;
     if (mounted) {
       setState(() {});
     }
 
     if (response.isSuccess) {
-      // print(response.jsonResponse['token']);
-      await AuthController.saveUserInfo(
-          response.jsonResponse['token'],
+      await AuthController.saveUserInfo(response.jsonResponse['token'],
           UserModel.fromJson(response.jsonResponse['data']));
-
       if (mounted) {
-        // showSnackMessage(
-        //     context, "Login success! Redirect to dashboard.", true);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const MainBottomNavScreen()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) => const MainBottomNavScreen()), (
+            route) => false);
       }
     } else {
-      clearTextField();
       if (response.statusCode == 401) {
         if (mounted) {
           showSnackMessage(
-              context, "Wrong Credential!Please check email/password.");
+              context, "Login failed! Please check email/password", true);
         }
       } else {
         if (mounted) {
-          showSnackMessage(
-              context, "Something went wrong while login! Please try again.");
+          showSnackMessage(context, 'Login failed! please try again', true);
         }
       }
     }
   }
 
-  void clearTextField() {
-    _emailTextCtrl.clear();
-    _passwordTextCtrl.clear();
-  }
-
   @override
   void dispose() {
-    _emailTextCtrl.dispose();
-    _passwordTextCtrl.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 }

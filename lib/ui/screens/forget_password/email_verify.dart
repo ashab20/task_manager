@@ -65,7 +65,6 @@ class _EmailVerificationState extends State<EmailVerification> {
                             .hasMatch(value!)) {
                           return null;
                         }
-                        ;
                         return "invalid E-mail";
                       },
                     ),

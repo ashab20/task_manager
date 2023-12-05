@@ -66,6 +66,7 @@ class _SetPasswordState extends State<SetPassword> {
                         if (value!.length < 8) {
                           return "Enter password more then 8 digit";
                         }
+                        return null;
                       },
                     ),
                     const SizedBox(
@@ -84,6 +85,7 @@ class _SetPasswordState extends State<SetPassword> {
                         if (value!.length < 8) {
                           return "Enter password more then 8 digit";
                         }
+                        return null;
                       },
                     ),
                     const SizedBox(

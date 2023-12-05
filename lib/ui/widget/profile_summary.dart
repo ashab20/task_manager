@@ -55,7 +55,7 @@ class _ProfileSummaryState extends State<ProfileSummary> {
         ),
         trailing: IconButton(
           onPressed: showLogOutDialog,
-          icon: Icon(Icons.logout_outlined),
+          icon: const Icon(Icons.logout_outlined),
         ));
   }
 
@@ -68,8 +68,8 @@ class _ProfileSummaryState extends State<ProfileSummary> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("LogOut"),
-            content: Text("Do you want to Logout?"),
+            title: const Text("LogOut"),
+            content: const Text("Do you want to Logout?"),
             actions: [
               TextButton(
                   onPressed: () async {
@@ -79,12 +79,12 @@ class _ProfileSummaryState extends State<ProfileSummary> {
                         MaterialPageRoute(builder: (context) => const LoginScreen()),
                             (route) => false);
                   },
-                  child: Text("Yes")),
+                  child: const Text("Yes")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel"))
+                  child: const Text("Cancel"))
             ],
           );
         });

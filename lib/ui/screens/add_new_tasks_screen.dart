@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
@@ -8,17 +7,19 @@ import 'package:task_manager/ui/widget/profile_summary.dart';
 import 'package:task_manager/ui/widget/snack_message.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
-  const AddNewTaskScreen({super.key});
-
+  const AddNewTaskScreen({super.key, required this.onSave});
   @override
   State<AddNewTaskScreen> createState() => _AddNewTaskScreenState();
+  final VoidCallback onSave;
 }
 
 class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
-  TextEditingController _subjectTextEditController = TextEditingController();
-  TextEditingController _descriptionTextEditController = TextEditingController();
-  final GlobalKey<FormState> _taskFormKey = GlobalKey<FormState>();
-  bool createTaskInProgress = false;
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final GlobalKey <FormState> _formKey = GlobalKey<FormState>();
+  bool _inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,99 +28,110 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
           children: [
             const ProfileSummary(),
             Expanded(
-              child: BodyBackground(child:SingleChildScrollView(
-                child: Form(
-                  key: _taskFormKey,
-                  child: Column(
-                                children: [
-                  const SizedBox(height: 32,),
-                  Text("Add New Task",style: Theme.of(context).textTheme.titleLarge),
-                  TextFormField(
-                    validator: (value){
-                      if(value?.trim().isEmpty ?? true){
-                        return "Please Insert the subject";
-                      }
-                      return null;
-                    },
-                    controller: _subjectTextEditController,
-                    decoration: const InputDecoration(
-                      hintText: "Subject"
-                    ),
-                  ),const SizedBox(height: 8,),
-                  TextFormField(
-                    validator: (value){
-                      if(value?.trim().isEmpty ?? true){
-                        return "Please Insert  Description";
-                      }
-                      return null;
-                    },
-                    controller: _descriptionTextEditController,
-                    maxLines: 8,
-                    decoration: const InputDecoration(
-                      hintText: "Description"
-                    ),
-                  ),
-                  const SizedBox(height: 16,),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      visible: !createTaskInProgress,
-                      replacement: const Center(child:  CircularProgressIndicator()),
-                      child: ElevatedButton(
-                          onPressed: createTask,
-                          child: const Icon(Icons.arrow_circle_right_outlined),
+                child: BodyBackground(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 48,),
+                            Text('Add New Task',style: Theme.of(context).textTheme.titleLarge,),
+                            const SizedBox(height: 16,),
+                            TextFormField(
+                              controller: _titleController,
+                              decoration:const InputDecoration(
+                                labelText: "Title",
+                                hintText: "Title",
+                              ),
+                              validator: (value){
+                                if (value?.trim().isEmpty ?? true) {
+                                  return "Enter Value";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 8,),
+                            TextFormField(
+                              controller: _descriptionController,
+                              maxLines:8,
+                              decoration:const  InputDecoration(
+                                labelText: "Description",
+                              ),
+                              validator: (value){
+                                if (value?.trim().isEmpty ?? true) {
+                                  return "Enter Value";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16,),
+                            SizedBox(
+                              width: double.infinity,
+                              child: Visibility(
+                                visible:_inProgress == false,
+                                replacement: const Center(child: CircularProgressIndicator(),),
+                                child: ElevatedButton(
+                                  onPressed: createTask,
+                                  child: const Text("Save",style: TextStyle(fontSize: 16),),
+                                ),
+                              ),
+                            )
+
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                                ],
-                              ),
-                ),
+                )
+
             ),
-            ),
-            ),
+
           ],
         ),
       ),
     );
   }
 
-  Future<void> createTask() async{
-    if(_taskFormKey.currentState!.validate()){
-      createTaskInProgress = true;
+  Future<void> createTask() async {
+    if (_formKey.currentState!.validate()) {
+      _inProgress = true;
       if(mounted){
-        setState(() { });
+        setState(() {});
       }
-
-      final NetworkResponse response = await NetworkCaller().postRequest(Urls.createTask,body: {
-        "title":_subjectTextEditController.text.trim(),
-        "description": _descriptionTextEditController.text.trim(),
-        "status" : "New"
+      final NetworkResponse response = await NetworkCaller()
+          .postRequest(Urls.createTask,body: {
+        "title":_titleController.text.trim(),
+        "description":_descriptionController.text.trim(),
+        "status":"New"
       });
-
-      createTaskInProgress = false;
+      _inProgress = false;
       if(mounted){
-        setState(() { });
+        setState(() {});
       }
 
       if(response.isSuccess){
+        _titleController.clear();
+        _descriptionController.clear();
+        widget.onSave();
         if(mounted){
-          showSnackMessage(context, "Task Creation Successful");
+          showSnackMessage(context, 'New Task add Successfully!');
         }
-
       }else{
         if(mounted){
-          print(response.statusCode.toString());
-        showSnackMessage(context, "Something Goes Wrong! Please Try Again",true);
+          showSnackMessage(context, 'Task create failed! please try again',true);
         }
       }
-
     }
   }
 
   @override
   void dispose() {
-    _descriptionTextEditController.dispose();
-    _subjectTextEditController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 }

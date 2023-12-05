@@ -1,5 +1,7 @@
 
 
+import '../../ui/widget/task_item_card.dart';
+
 class Urls {
   static const String _baseUrl = "https://task.teamrabbil.com/api/v1";
   static const String registration = "$_baseUrl/registration";
@@ -7,6 +9,10 @@ class Urls {
 
   // Task
   static const String createTask = "$_baseUrl/createTask";
+  static  String progressTaskList = '$_baseUrl/listTaskByStatus/${TaskStatus.Progress.name}';
+  static  String newTaskList = '$_baseUrl/listTaskByStatus/${TaskStatus.New.name}';
+  static  String completeTaskList = '$_baseUrl/listTaskByStatus/${TaskStatus.Completed.name}';
+  static  String cancelTaskList = '$_baseUrl/listTaskByStatus/${TaskStatus.Cancelled.name}';
   static const String taskListStatus = "$_baseUrl/listTaskByStatus";
   static const String taskStatusCount = "$_baseUrl/taskStatusCount";
   static const String updateProfile = '$_baseUrl/profileUpdate';

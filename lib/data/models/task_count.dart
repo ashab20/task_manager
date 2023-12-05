@@ -11,8 +11,8 @@ class TaskCount {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = this.sId;
-    data['sum'] = this.sum;
+    data['_id'] = sId;
+    data['sum'] = sum;
     return data;
   }
 }

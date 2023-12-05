@@ -3,8 +3,8 @@ import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
 import 'package:task_manager/data/network_caller/network_response.dart';
 import 'package:task_manager/data/utilities/urls.dart';
-import 'package:task_manager/ui/widget/profile_summary.dart';
-import 'package:task_manager/ui/widget/task_item_card.dart';
+import '../widget/profile_summary.dart';
+import '../widget/task_item_card.dart';
 
 class CancelledTaskScreen extends StatefulWidget {
   const CancelledTaskScreen({super.key});
@@ -14,32 +14,27 @@ class CancelledTaskScreen extends StatefulWidget {
 }
 
 class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
-
-  bool getNewTaskInProgress = false;
   TaskListModel taskListModel = TaskListModel();
-
-  Future<void> getNewTaskList()async{
-    getNewTaskInProgress = true;
-    if(mounted){
+  bool _taskListProgress = false;
+  Future<void> getCancelledTask() async {
+    _taskListProgress = true;
+    if (mounted) {
       setState(() {});
     }
-
-    final NetworkResponse response = await NetworkCaller().getRequest("${Urls.taskListStatus}/Canceled");
-
-    if(response.isSuccess){
+    final NetworkResponse response =
+    await NetworkCaller().getRequest(Urls.cancelTaskList);
+    if (response.isSuccess) {
       taskListModel = TaskListModel.fromJson(response.jsonResponse);
     }
-
-    getNewTaskInProgress = false;
-    if(mounted){
+    _taskListProgress = false;
+    if (mounted) {
       setState(() {});
     }
   }
-
   @override
   void initState() {
     super.initState();
-    getNewTaskList();
+    getCancelledTask();
   }
 
   @override
@@ -49,20 +44,31 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
         child: Column(
           children: [
             const ProfileSummary(),
+            const SizedBox(
+              height: 10,
+            ),
             Expanded(
-              child:Visibility(
-                visible: !getNewTaskInProgress,
-                replacement: const Center(child: CircularProgressIndicator(),),
-                child: ListView.builder(
-                  itemCount: taskListModel.taskList?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return taskItemCard(
-                        taskData:taskListModel.taskList![index]
-                    );
-                  },
-                ),
-              ),
-            )
+                child: Visibility(
+                  visible: _taskListProgress == false,
+                  replacement: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  child: ListView.builder(
+                    itemCount: taskListModel.taskList?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return TaskItemCard(
+                        color: Colors.red,
+                        task: taskListModel.taskList![index],
+                        onDelete: () {
+                          getCancelledTask();
+                        },
+                        onStatusChange: (){
+                          getCancelledTask();
+                        },
+                      );
+                    },
+                  ),
+                )),
           ],
         ),
       ),

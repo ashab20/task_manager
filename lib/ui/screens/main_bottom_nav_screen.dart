@@ -12,35 +12,36 @@ class MainBottomNavScreen extends StatefulWidget {
 }
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
-  int _currentIndex = 0;
-
-  final List<Widget> _screens = const [
-    NewTaskScreen(),
-    ProgressTaskScreen(),
-    CompletedTaskScreen(),
-    CancelledTaskScreen()
+  int _selectedIndex = 0;
+  final List<Widget> _screen = [
+    const NewTaskScreen(),
+    const ProgressTaskScreen(),
+    const CompletedTaskScreen(),
+    const CancelledTaskScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: _screen[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            _currentIndex = index;
-            setState(() {});
-          },
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'New'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.change_circle_outlined), label: 'In Progress'),
-            BottomNavigationBarItem(icon: Icon(Icons.done), label: 'Completed'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.close), label: 'Cancelled'),
-          ]),
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          _selectedIndex = index;
+          setState(() {});
+        },
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.task), label: "New Task"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.change_circle), label: "Progress"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.done_outline_rounded), label: "Completed"),
+          BottomNavigationBarItem(icon: Icon(Icons.cancel), label: "Cancelled"),
+        ],
+      ),
     );
   }
 }

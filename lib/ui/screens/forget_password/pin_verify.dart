@@ -89,6 +89,7 @@ class _PinVerificationState extends State<PinVerification> {
                         if (value!.length < 6) {
                           return "Enter 6 digit";
                         }
+                        return null;
                       },
                     ),
                     const SizedBox(

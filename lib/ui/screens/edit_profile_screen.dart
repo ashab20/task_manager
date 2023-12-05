@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:task_manager/controllers/auth_controller.dart';
 import 'package:task_manager/data/models/user_model.dart';
 import 'package:task_manager/data/network_caller/network_caller.dart';
@@ -30,7 +31,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   void initState() {
     super.initState();
-    _emailController.text = AuthController().user?.email ?? "";
+    _emailController.text = AuthController.user?.email ?? "";
     _firstNameController.text = AuthController.user?.firstName ?? "";
     _lastNameController.text = AuthController.user?.lastName ?? "";
     _mobileController.text = AuthController.user?.mobile ?? "";
@@ -68,7 +69,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               height: 24,
                             ),
                             photoPickerField(),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             TextFormField(
@@ -85,7 +86,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                     .hasMatch(value!)) {
                                   return null;
                                 }
-                                ;
                                 return "invalid E-mail";
                               },
                             ),
@@ -101,6 +101,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                 if (value?.trim().isEmpty ?? true) {
                                   return "Enter Value";
                                 }
+                                return null;
                               },
                             ),
                             const SizedBox(
@@ -115,6 +116,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                 if (value?.trim().isEmpty ?? true) {
                                   return "Enter Value";
                                 }
+                                return null;
                               },
                             ),
                             const SizedBox(
@@ -234,7 +236,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
           Expanded(
             flex: 1,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(8),
@@ -295,12 +297,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               }
                               Navigator.pop(context);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.image,
                               size: 36,
                               color: Colors.green,
                             )),
-                        Text("  Gallery", style: TextStyle(fontSize: 20))
+                        const Text("  Gallery", style: TextStyle(fontSize: 20))
                       ],
                     ),
                     Column(
@@ -319,12 +321,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               }
                               Navigator.pop(context);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.camera_alt_rounded,
                               size: 36,
                               color: Colors.green,
                             )),
-                        Text(
+                        const Text(
                           "  Camera",
                           style: TextStyle(fontSize: 20),
                         )

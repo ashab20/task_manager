@@ -22,7 +22,7 @@ class AuthController {
 
   static Future<bool> isLoggedinUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = await sharedPreferences.getString('token');
+    String? token = sharedPreferences.getString('token');
     if (token != null) {
       await initializaUserCache();
       return true;
